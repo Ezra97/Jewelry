@@ -1,0 +1,113 @@
+﻿@model Jewelry.ViewModel.VMGroup
+@using Jewelry.Models;
+@{
+    ViewData["Title"] = "Index";
+}
+<h1 dir="rtl">פרטי @Model.Group.Name</h1>
+<p>
+    <a asp-action="Create" asp-route-id="@Model.Group.ID">יצירת קבוצה חדשה בתוך @Model.Group.Name</a>
+</p>
+<p>
+    <a asp-action="AddJewel" asp-route-id="@Model.Group.ID">הוספת תכשיט חדש לתוך @Model.Group.Name</a>
+</p>
+<div>
+    <h4>קבוצה</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-5">שם קבוצה</dt>
+        <dd class="col-sm-5">@Html.DisplayFor(model => model.Group.Name)</dd>
+        <dt class="col-sm-5">תיאור קבוצה</dt>
+        <dd class="col-sm-5">@Html.DisplayFor(model => model.Group.Description)</dd>
+        <dt class="col-sm-5">תמונה</dt>
+        <dd class="col-sm-5">
+            @if (Model.Group.Photo != null)
+            {                
+               <img src="data:image;base64,@System.Convert.ToBase64String(Model.Group.Photo)" width="80" height="60" />
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("עריכת " + @Model.Group.Name, "Edit", new { id = Model.Group.ID }) |
+    <a asp-action="Index" asp-route-id="1">חזרה לחנות תכשיטים</a>
+</div>
+@if (Model.Group.Groups.Count > 0)
+{
+    <br />
+    <br />
+    <h4 dir="rtl">קבוצות קיימות בתוך @Model.Group.Name</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>שם קבוצה</th>
+                <th>תיאור קבוצה</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Group.Groups)
+            {
+                <tr>
+                    <td>@Html.ActionLink("" + item.Name, "Index", new { id = item.ID })</td>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>
+                        @Html.ActionLink("עריכת " + item.Name, "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("מחיקת " + item.Name, "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model.Jewels.Count > 0)
+{
+    <h4 dir="rtl">כל הפריטים בתוך @Model.Group.Name</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>שם פריט</th>
+                <th>תיאור פריט</th>
+                <th>מתאים לגבר</th>
+                <th>מתאים לאשה</th>
+                <th>תמונה</th>
+                <th>גודל</th>
+                <th>צבע</th>
+                <th>מחיר</th>
+                <th>הנחה</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Jewels)
+            {
+                <tr>
+                    <td>@Html.ActionLink("" + item.Jewel.Name, "Details", new { id = item.Jewel.ID })</td>
+                    <td>@Html.DisplayFor(modelItem => item.Jewel.Description)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Jewel.Male)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Jewel.Female)</td>
+                    <td>
+                        @if (item.Jewel.Photo != null && item.Jewel.Photo.Count > 0)
+                        {
+                            foreach (Photo MyPhoto in item.Jewel.Photo)
+                            {
+                                <img src="data:image;base64,@System.Convert.ToBase64String(MyPhoto.MyPhoto)" width="80" height="60" />
+                            }
+                        }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.Jewel.Weight)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Jewel.Color)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Price.price)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Price.Discount)%</td>
+                    <td>
+                        @Html.ActionLink("עריכת " + item.Jewel.Name, "EditJewel", new { id = item.Jewel.ID }) |
+                        @Html.ActionLink("מחיקת " + item.Jewel.Name, "DeleteJewel", new { id = item.Jewel.ID })|
+                        @Html.ActionLink("" + item.AddImageTitle, "AddImage", new { id = item.Jewel.ID })|
+                        @Html.ActionLink("הוספת מחיר עדכני", "AddPrice", new { id = item.Jewel.ID })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<br />
+<br />

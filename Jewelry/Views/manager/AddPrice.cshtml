@@ -1,0 +1,55 @@
+﻿@model Jewelry.ViewModel.VMAddPriceIntoJewel
+@{
+    ViewData["Title"] = "AddPrice";
+}
+<h1>הוספת מחיר עדכני</h1>
+<h4>מחיר</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddPrice">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="JewelID" class="control-label">@Model.Title</label>
+                <select asp-for="JewelID" class="form-control">
+                    @foreach (Jewel jewel in Model.Jewel.Parent.Jewels)
+                    {
+                        @if (jewel.ID == Model.JewelID)
+                        {
+                            <option class="form-control" id="@jewel.ID" value="@jewel.ID" selected="selected">@jewel.Name</option>
+                        }
+                        else
+                        {
+                            <option class="form-control" id="@jewel.ID" value="@jewel.ID">@jewel.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="JewelID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price.price" class="control-label"></label>
+                <input asp-for="Price.price" class="form-control" />
+                <span asp-validation-for="Price.price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price.Discount" class="control-label"></label>
+                <input asp-for="Price.Discount" class="form-control" />
+                <span asp-validation-for="Price.Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price.UpToDate" class="control-label"></label>
+                <input asp-for="Price.UpToDate" class="form-control" />
+                <span asp-validation-for="Price.UpToDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="הוסף" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">חזרה לחנות תכשיטים</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

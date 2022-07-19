@@ -1,0 +1,22 @@
+﻿@model Jewelry.Models.Photo
+@{
+    ViewData["Title"] = "מחיקת תמונה";
+}
+<h1>מחיקת תמונה</h1>
+<h3>האם אתה בטוח שברצונך למחוק את התמונה הזו?</h3>
+<div>
+    <h4>תמונה</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.ID)</dt>
+        <dd class = "col-sm-10">@Html.DisplayFor(model => model.ID)</dd>
+        <dt class = "col-sm-2">@Html.DisplayNameFor(model => model.MyPhoto)</dt>
+        <dd class="col-sm-10">
+            <img src="data:image;base64,@System.Convert.ToBase64String(Model.MyPhoto)" width="120" height="90" />
+        </dd>
+    </dl>
+    <form asp-action="DeletePhoto">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">חזרה לחנות תכשיטים</a>
+    </form>
+</div>

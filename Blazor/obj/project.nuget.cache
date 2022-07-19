@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "deSPB392al/iDaqxIr3XaXTEUtMdaI9XBD+ryCQMc59dpFmSznnbocKei+YywTYoafMO9wjTB/KdTEl9z7knyg==",
+  "success": true,
+  "projectFilePath": "F:\\Users\\עינת ברונר\\Documents\\אורי\\אופק חרזי\\Jewelry\\Blazor\\Blazor.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user.DESKTOP-NHN6REL\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,42 @@
+﻿@model Jewelry.ViewModel.VMJewelAndLastPrice
+@{
+    ViewData["Title"] = "Details";
+}
+<h1>פרטי תכשיט</h1>
+<div>
+    <h4></h4>
+    <hr />
+    <dl class="row">
+        @if (Model.Jewel.Photo.Count > 0)
+        {
+            <dt class="row-cols-1"></dt>
+            foreach (Photo photo in Model.Jewel.Photo)
+            {               
+                <dt class="row-cols-1">
+                    <img src="data:image;base64,@System.Convert.ToBase64String(photo.MyPhoto)" width="300" height="300" />
+                </dt>
+            }
+        }
+    </dl>
+</div>
+<hr/>
+<div>
+    <dl class="col">
+        <dt class="col-sm-2">@Model.Jewel.Name</dt>
+        <dd class="col-sm-3">@Model.Jewel.Description</dd>
+        <dd class="col-sm">@Model.MaleTitle</dd>
+        <dd class="col-sm">@Model.FemailTitle</dd>
+        <dd class="col-sm">@Model.WeightTitle</dd>
+        <dd class="col-sm">@Model.ColorTitle</dd>
+        <dd class="col-sm">@Model.PriceTitle</dd>
+        <dd class="col-sm">@Model.DiscountTitle</dd>
+        <dd class="col-sm">@Model.FinalTitle</dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("הוסף לסל", "AddToCart", new { id = Model.Jewel.ID }) |
+    @Html.ActionLink("חזרה ל"+Model.Jewel.Parent.Name,"Index",new { id=Model.Jewel.Parent.ID})|
+    <a asp-action="Index">חזרה לחנות</a>
+</div>
+<br/>
+<br/>

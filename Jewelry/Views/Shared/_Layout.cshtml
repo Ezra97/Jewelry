@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - חנות תכשיטים</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/lib/bootstrap/dist/css/glyphicons-only-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap-v4-rtl/dist/css/bootstrap-rtl.css" rel="stylesheet" />
+    <style>
+        a.navbar-brand {
+            white-space: normal;
+            text-align: center;
+            word-break: normal;
+        }
+    </style>
+</head>
+<body dir="rtl">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="1">חנות</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        @foreach (Group group in Shop.GetShop().Root.Groups)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" asp-route-id="@group.ID.ToString()">
+                                    @if (group.Photo != null)
+                                    {
+                                        <img src="data:image; base64, @System.Convert.ToBase64String(group.Photo)" width="30" height="30" />
+                                    }
+                                    @group.Name
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Connect">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true">@Jewelry.Models.Shop.GetShop().Order.Customer.Name</span>
+                            </a>
+                        </li>
+                        @if (Jewelry.Models.Shop.GetShop().Order.Customer.Email != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Orders">
+                                    <span class="glyphicon glyphicon-sunglasses" aria-hidden="true">הזמנות קודמות</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="UnConnect">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true">התנתק</span>
+                                </a>
+                            </li>
+                        }
+                        @if (Jewelry.Models.Shop.GetShop().Order.Customer.Email == "ofek5597@gmail.com"
+                    || Jewelry.Models.Shop.GetShop().Order.Customer.Email == "estollon@gmail.com")//if manager
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="manager" asp-action="Index">
+                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true">ניהול</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Orders" asp-action="Index">
+                                    <span class="glyphicon glyphicon-sort-by-order" aria-hidden="true">הזמנות</span>
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="AddToCart">
+                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">@Jewelry.Models.Shop.GetShop().Order.CountJewels.ToString()</span>
+                            </a>
+                        </li>
+                        <li class="navbar-text" id="liID">
+                            <div>
+                                <input list="selectID" id="Search" onchange="Change(this)" placeholder="חפש פריט או קבוצה" />
+                                <datalist id="selectID" >
+                                        @foreach (Group group1 in Jewelry.Models.Shop.GetShop().Groups.ToList())
+                                        {
+                                            if (group1.ID != 1)
+                                            {
+                                                <option  id="@("g" + group1.ID)">@group1.Name</option>
+                                            }
+                                        }
+                                        @foreach (Jewel jewel in Jewelry.Models.Shop.GetShop().Jewels.ToList())
+                                        {
+                                            <option id="@("j"+jewel.ID)">@jewel.Name</option>
+                                        }
+                                </datalist>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">אחריות ויצירת קשר</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - חנות תכשיטים - <a asp-area="" asp-controller="Home" asp-action="Privacy">אחריות ויצירת קשר</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/ImageManager.js"></script>
+    <script src="~/js/Choise.js"></script>
+    <script src="~/ts/search.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

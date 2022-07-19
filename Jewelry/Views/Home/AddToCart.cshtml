@@ -1,0 +1,79 @@
+﻿@model Jewelry.ViewModel.VMOrderPay
+
+@{
+    ViewData["Title"] = "AddToCart";
+}
+@if (Model.Order.Customer.ID == 0)
+{
+<a asp-action="Connect">
+    <h3>אינך מחובר. עליך להתחבר כדי להזמין.</h3>
+</a>
+}
+else
+{
+@if (Model.Order.JewelryInOrder.Count == 0)
+{
+    <h3>ההזמנה שלך ריקה</h3>
+    <p><a asp-action="Index">הוספת תכשיט להזמנה</a></p>
+}
+else
+{
+    <h4>פרטי ההזמנה שלך</h4>
+    <p>
+        <a asp-action="Index">להוספת תכשיט נוסף</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>שם התכשיט</th>
+                <th>תיאור</th>
+                <th>תמונה</th>
+                <th>גבר</th>
+                <th>אישה</th>
+                <th></th>
+                <th>כמות</th>
+                <th></th>
+                <th>מחיר</th>
+                <th>הנחה</th>
+                <th>מחיר סופי</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Order.JewelryInOrder)
+            {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Jewel.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Jewel.Description)</td>
+                <td>
+                    @if (item.Jewel.Photo.Last().MyPhoto != null)
+                    {
+                        <img src="data:image;base64,@System.Convert.ToBase64String(item.Jewel.Photo.Last().MyPhoto)" width="80" height="60" />
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.MaleTitle)</td>
+                <td>@Html.DisplayFor(modelItem => item.FemailTitle)</td>
+                <td>
+                    <a asp-action="AddToCart" asp-route-id="@item.Jewel.ID">
+                        <span class="glyphicon glyphicon-plus-sign" />
+                    </a>
+                    </td>
+                <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                <td>
+                    <a asp-action="MinusQuantity" asp-route-id="@item.Jewel.ID">
+                        <span class="glyphicon glyphicon-minus-sign" />
+                    </a>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.PriceTitle)</td>
+                <td>@Html.DisplayFor(modelItem => item.DiscountTitle)</td>
+                <td>@Html.DisplayFor(modelItem => item.FinalTitle)</td>
+                <td>@Html.ActionLink("מחיקת תכשיט מהסל", "RemoveFromCart", new { id = item.Jewel.ID })</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <a asp-action="Pay">סגירת הזמנה ותשלום</a>
+    </div>
+}
+}

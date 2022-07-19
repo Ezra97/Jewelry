@@ -1,0 +1,94 @@
+﻿@model Jewelry.ViewModel.VMAddJewel
+@{
+    ViewData["Title"] = "הוספת תכשיט";
+}
+<h1>הוספת תכשיט</h1>
+<h4></h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddJewel" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ParentID" class="control-label">בחירת קבוצה לתכשיט החדש</label>
+                <select asp-for="ParentID" class="form-control">
+                    @foreach (Group group in Model.Groups)
+                    {
+                        @if (group.ID == Model.ParentID)
+                        {
+                            <option class="form-control" id="@group.ID" value="@group.ID" selected="selected">@group.Name</option>
+                        }
+                        else
+                        {
+                            <option class="form-control" id="@group.ID" value="@group.ID">@group.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="ParentID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Jewel.Name" class="control-label">שם התכשיט החדש</label>
+                <input asp-for="Jewel.Name" class="form-control" required/>
+                <span asp-validation-for="Jewel.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Jewel.Description" class="control-label">תיאור התכשיט החדש</label>
+                <input asp-for="Jewel.Description" class="form-control" />
+                <span asp-validation-for="Jewel.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    מתאים לגבר <br />
+                    <input class="form-check-input" asp-for="Jewel.Male" /> 
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    מתאים לאשה <br />
+                    <input class="form-check-input" asp-for="Jewel.Female" /> 
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="file" class="control-label">הוספת תמונה</label>
+                <input asp-for="file" type="file" class="form-control" required/>
+                <span asp-validation-for="file" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Jewel.Weight" class="control-label">משקל</label>
+                <input asp-for="Jewel.Weight" class="form-control" />
+                <span asp-validation-for="Jewel.Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Jewel.Color" class="control-label">צבע</label>
+                <input asp-for="Jewel.Color" class="form-control" />
+                <span asp-validation-for="Jewel.Color" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price.price" class="control-label">מחיר</label>
+                <input asp-for="Price.price" class="form-control" />
+                <span asp-validation-for="Price.price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price.Discount" class="control-label">הנחה</label>
+                <input asp-for="Price.Discount" class="form-control" />
+                <span asp-validation-for="Price.Discount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price.UpToDate" class="control-label">עד לתאריך</label>
+                <input asp-for="Price.UpToDate" class="form-control" />
+                <span asp-validation-for="Price.UpToDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="הוסף" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">חזרה לרשימה</a>
+</div>
+<br />
+<br />
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

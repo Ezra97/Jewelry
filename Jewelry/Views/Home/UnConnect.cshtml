@@ -1,0 +1,49 @@
+﻿@model Jewelry.ViewModel.VMOrderPay
+@{
+    ViewData["Title"] = "UnConnect";
+}
+<h1>התנתק</h1>
+@if (Model.Order.JewelryInOrder.Count == 0)
+{
+<h3>האם ברצונך להתנתק?</h3>
+}
+else
+{
+<h3>האם ברצונך להתנתק ולבטל את ההזמנה שלך?</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>שם התכשיט</th>
+                <th>תיאור</th>
+                <th>תמונה</th>
+                <th>גבר</th>
+                <th>אישה</th>
+                <th>מחיר</th>
+                <th>הנחה</th>
+                <th>מחיר סופי</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Order.JewelryInOrder)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Jewel.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Jewel.Description)</td>
+                    <td><img src="data:image;base64,@System.Convert.ToBase64String(item.Jewel.Photo.Last().MyPhoto)" width="80" height="60" /></td>
+                    <td>@Html.DisplayFor(modelItem => item.MaleTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FemailTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PriceTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DiscountTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FinalTitle)</td> 
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<div>
+    <form asp-action="UnConnect">
+        <input type="submit" value="ניתוק וביטול הזמנה" class="btn btn-danger" /> |
+        <a asp-action="AddToCart">חזרה להזמנה</a>|
+        <a asp-action="Index">חזרה לחנות</a>
+    </form>
+</div>

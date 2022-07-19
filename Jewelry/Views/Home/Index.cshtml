@@ -1,0 +1,76 @@
+﻿@model Jewelry.ViewModel.VMOrder
+@{
+    ViewData["Title"] = "Index";
+}
+<title>@Model.VMGroup.Group.Name</title>
+<h1>ברוכים הבאים לחנות שלנו</h1>
+<br/>
+@if (Model.VMGroup.Group != null)
+{
+    <h2>@Model.VMGroup.Group.Name</h2>
+        @if (Model.VMGroup.Group.Description != null)
+        {
+                <h5>@Model.VMGroup.Group.Description</h5>
+        }
+<table class="table">
+    <thead>
+        <tr>
+            @if (Model.VMGroup.Group.Groups.Count > 0)
+            {
+                foreach (Group group in Model.VMGroup.Group.Groups)
+                {
+                    <td>@Html.ActionLink(group.Name, "Index", new { id = group.ID })</td>
+                }
+            }
+            <th></th>
+        </tr>
+    </thead>
+</table>
+}
+@if (Model.VMGroup.Jewels.Count > 0)
+{
+    <h3>@Model.VMGroup.Group.Name</h3>
+<table class="table">
+    <tr>
+        <th>תכשיט</th>
+        <th>שם</th>
+        <th>מחיר</th>
+        <th>הנחה</th>
+        <th>מחיר לאחר הנחה</th>
+        <th></th>
+    </tr>
+        @foreach (Jewelry.ViewModel.VMJewelAndLastPrice jewel in Model.VMGroup.Jewels)
+        {
+<tr>
+    <td>
+        @if (jewel.Jewel.Photo.Count > 0)
+        {
+            <a asp-action="Details" asp-route-id="@jewel.Jewel.ID">
+                <img src="data:image;base64,@System.Convert.ToBase64String(jewel.Jewel.Photo.Last().MyPhoto)" width="80" height="60" />
+            </a>
+        }
+        else
+        {
+            <a asp-action="Details" asp-route-id="@jewel.Jewel.ID">@jewel.Jewel.Description</a>
+        }
+    </td>
+    <td>
+        <a asp-action="Details" asp-route-id="@jewel.Jewel.ID">@jewel.Jewel.Name</a>
+    </td>
+    <td>
+        <a asp-action="Details" asp-route-id="@jewel.Jewel.ID">@Html.DisplayFor(modelItem => jewel.Price.price) ש"ח</a>
+    </td>
+    <td>
+        <a asp-action="Details" asp-route-id="@jewel.Jewel.ID">@Html.DisplayFor(modelItem => jewel.Price.Discount)%</a>
+    </td>
+    <td>
+        <a asp-action="Details" asp-route-id="@jewel.Jewel.ID">@Html.DisplayFor(modelItem => jewel.Price.FinalPrice) ש"ח</a>
+    </td>
+    <td>
+        <a asp-action="AddToCart" asp-route-id="@jewel.Jewel.ID">הוסף לסל</a>
+    </td>
+</tr>
+        }
+ </table>
+}
+

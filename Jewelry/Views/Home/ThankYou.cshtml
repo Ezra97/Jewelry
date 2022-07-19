@@ -1,0 +1,13 @@
+﻿@model Jewelry.Models.Order
+@{
+    ViewData["Title"] = "תודה רבה";
+}
+<h1>@Model.Customer.Name , תודה על הזמנתך</h1>
+<hr />
+<h3>מספר הזמנה @Model.ID</h3>
+<h4>ישלח לכתובת @Model.Address</h4>
+<h5>המשלוח יגיע עד 7 ימי עסקים</h5>
+<div>
+    <a asp-action="Index">חזרה לחנות</a>
+</div>
+

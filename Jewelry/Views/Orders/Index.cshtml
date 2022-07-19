@@ -1,0 +1,96 @@
+﻿@model Jewelry.ViewModel.VMAllOrders
+
+@{
+    ViewData["Title"] = "הזמנות";
+}
+
+@if (Model.Orders.Count == 0)
+{
+    <h1>אין הזמנות במערכת</h1>
+}
+else
+{
+<h1>הזמנות במערכת</h1>
+@if (Model.Order.Order.ID != 0)
+{
+<div>
+    @if (!Model.Order.Order.IsDone)
+    {
+        <h4>@Html.ActionLink("בצע הזמנה", "Done", new { id = Model.Order.Order.ID })</h4>
+    }
+    else
+    {
+        <h4>ההזמנה בוצעה</h4>
+    }
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">קוד הזמנה</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Order.Order.ID)</dd>
+        <dt class="col-sm-2">תאריך</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Order.Order.date)</dd>
+        @foreach (var jewel in Model.Order.Order.JewelryInOrder)
+        {
+            <dt class="col-sm-2">שם פריט</dt>
+            <dd class="col-sm-10">@jewel.Jewel.Name</dd>
+            <dt class="col-sm-2">כמות</dt>
+            <dd class="col-sm-10">@jewel.Quantity</dd>
+            @if (jewel.Jewel.Photo.Last().MyPhoto != null)
+            {
+                <dt class="col-sm-2">תמונה</dt>
+                <dd class="col-sm-10">
+                    <img src="data:image;base64,@System.Convert.ToBase64String(jewel.Jewel.Photo.Last().MyPhoto)" width="80" height="60" />
+                </dd>
+            }
+        }
+        <dt class="col-sm-2">מחיר כל הפריטים</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Order.SumPrices)</dd>
+        <dt class="col-sm-2">תשלום עבור משלוח</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Order.PriceSending)</dd>
+        <dt class="col-sm-2">האם שולם?</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Order.Order.IfISPay)</dd>
+        <dt class="col-sm-2">סה"כ שולם</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Order.PriceTotal)</dd>
+        <dt class="col-sm-2">כתובת למשלוח</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Order.Order.Address)</dd>
+        <dt class="col-sm-2">מספר טלפון</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Order.Order.Customer.Phone_Number)</dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("<<", "Index", new { id = Model.Order.Order.ID - 1 }) |
+    @Html.ActionLink(">>", "Index", new { id = Model.Order.Order.ID + 1 })
+</div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>קוד הזמנה</th>
+            <th>תאריך הזמנה</th>
+            <th>האם שולם?</th>
+            <th>סה"כ שולם</th>
+            <th>כתובת למשלוח</th>
+            <th>האם בוצע?</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            if (item.Order.ID != Model.Order.Order.ID)
+            {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Order.ID)</td>
+            <td>@Html.DisplayFor(modelItem => item.Order.date)</td>
+            <td>@Html.DisplayFor(modelItem => item.Order.IfISPay)</td>
+            <td>@Html.DisplayFor(modelItem => item.PriceTotal)</td>
+            <td>@Html.DisplayFor(modelItem => item.Order.Address)</td>
+            <td>@Html.DisplayFor(modelItem => item.Order.IfIsDone)</td>
+            <td>@Html.ActionLink("הצג את פרטי ההזמנה", "Index", new { id = item.Order.ID })</td>
+        </tr>
+            }
+        }
+    </tbody>
+</table>
+<br/>
+<br/>
+}

@@ -1,0 +1,49 @@
+﻿@model Jewelry.Models.Customer
+@{
+    ViewData["Title"] = "Connect";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title"><span class="glyphicon glyphicon-user"></span> התחברות לחנות</h1>
+    </div>
+    <div class="panel-heading">
+        <h4>הזינו שם, כתובת מייל ומספר טלפון וסיסמא</h4>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Connect">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">שם</label>
+                <input asp-for="Name" class="form-control" value="" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">כתובת מייל נכונה</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone_Number" class="control-label">מספר טלפון</label>
+                <input asp-for="Phone_Number" class="form-control" />
+                <span asp-validation-for="Phone_Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="התחבר" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">חזרה לחנות</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

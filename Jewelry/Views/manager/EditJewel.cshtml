@@ -1,0 +1,51 @@
+﻿@model Jewelry.Models.Jewel
+@{
+    ViewData["Title"] = "עריכת תכשיט";
+}
+<h1>עריכת תכשיט</h1>
+<h4>תכשיט</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditJewel">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">שם תכשיט</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label">תיאור התכשיט</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label"><input class="form-check-input" asp-for="Male" />מתאים לגבר</label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label"><input class="form-check-input" asp-for="Female" />מתאים לאשה</label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label">משקל</label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Color" class="control-label">צבע</label>
+                <input asp-for="Color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="שמירת שינויים" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">חזרה לרשימה</a>
+</div>
+<br />
+<br />
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

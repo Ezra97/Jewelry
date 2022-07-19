@@ -1,0 +1,94 @@
+﻿@model Jewelry.ViewModel.VMJewelDetails
+@using Jewelry.ViewModel 
+@{
+    ViewData["Title"] = "Details";
+}
+<h1>פרטי תכשיט</h1>
+<div>
+    <h4>תכשיט</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">שם התכשיט</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.JewelDetails.Name)</dd>
+        <dt class="col-sm-2">תיאור התכשיט</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.JewelDetails.Description)</dd>
+        <dt class="col-sm-2">מתאים לגבר</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.JewelDetails.Male)</dd>
+        <dt class="col-sm-2">מתאים לאישה</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.JewelDetails.Female)</dd>
+        <dt class="col-sm-2">למחיקה לחץ על התמונה</dt>
+        <dd class="col-sm-10">
+            @if (Model.JewelDetails.Photo != null && Model.JewelDetails.Photo.Count > 0)
+            {
+                foreach (Photo MyPhoto in Model.JewelDetails.Photo)
+                {
+                    <a asp-action="DeletePhoto" asp-route-id="@MyPhoto.ID.ToString()">
+                        <img src="data:image;base64,@System.Convert.ToBase64String(MyPhoto.MyPhoto)" width="80" height="60" />
+                    </a>
+                }
+            }
+        </dd>
+        <dt class="col-sm-2">משקל</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.JewelDetails.Weight)</dd>
+        <dt class="col-sm-2">צבע</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.JewelDetails.Color)</dd>
+        <dt class="col-sm-2">מחיר</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Price.price)</dd>
+        <dt class="col-sm-2">הנחה</dt>
+        <dd class="col-sm-10">@Html.DisplayFor(model => model.Price.Discount)%</dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("עריכת " + @Model.JewelDetails.Name, "EditJewel", new { id = Model.JewelDetails.ID }) |
+    @Html.ActionLink(""+ @Model.AddImageTitle, "AddImage",new { id=Model.JewelDetails.ID})|
+    <a asp-action="Index" asp-route-id="1">חזרה לחנות תכשיטים</a>
+</div>
+@if (Model.JewelsInGroup.Count > 0)
+{
+    <hr/>
+    <hr/>
+    <h4 dir="rtl">כל הפריטים בתוך @Model.JewelDetails.Parent.Name</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>שם פריט</th>
+                <th>תיאור פריט</th>
+                <th>מתאים לגבר</th>
+                <th>מתאים לאישה</th>
+                <th>תמונה</th>
+                <th>משקל</th>
+                <th>צבע</th>
+                <th>מחיר</th>
+                <th>הנחה</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (VMJewelAndLastPrice item in Model.JewelsInGroup)
+            {
+            <tr>
+                <td>@Html.ActionLink("" + item.Jewel.Name, "Details", new { id = item.Jewel.ID })</td>
+                <td>@Html.DisplayFor(modelItem => item.Jewel.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Jewel.Male)</td>
+                <td>@Html.DisplayFor(modelItem => item.Jewel.Female)</td>
+                <td>
+                    @if (item.Jewel.Photo != null && item.Jewel.Photo.Count > 0)
+                    {
+                        foreach (Photo MyPhoto in item.Jewel.Photo)
+                        {
+                            <img src="data:image;base64,@System.Convert.ToBase64String(MyPhoto.MyPhoto)" width="80" height="60" />
+                        }
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Jewel.Weight)</td>
+                <td>@Html.DisplayFor(modelItem => item.Jewel.Color)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price.price)</td>
+                <td>@Html.DisplayFor(modelItem => item.Price.Discount);%</td>
+                <td>@Html.ActionLink("עריכת " + item.Jewel.Name, "EditJewel", new { id = item.Jewel.ID })</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+<br/>
+<br/>

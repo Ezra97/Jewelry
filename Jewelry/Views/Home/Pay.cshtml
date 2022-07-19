@@ -1,0 +1,106 @@
+﻿@model Jewelry.ViewModel.VMPay
+@{
+    ViewData["Title"] = "Pay";
+}
+<h1>תשלום הזמנה</h1>
+<h4>הזמנה של @Model.OrderPay.Order.Customer.Name</h4>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>שם התכשיט</th>
+            <th>תיאור</th>
+            <th>תמונה</th>
+            <th>גבר</th>
+            <th>אישה</th>
+            <th>כמות</th>
+            <th>מחיר</th>
+            <th>הנחה</th>
+            <th>מחיר סופי</th>   
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderPay.Order.JewelryInOrder)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Jewel.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Jewel.Description)</td>
+            <td><img src="data:image;base64,@System.Convert.ToBase64String(item.Jewel.Photo.Last().MyPhoto)" width="80" height="60" /></td>
+            <td>@Html.DisplayFor(modelItem => item.MaleTitle)</td>
+            <td>@Html.DisplayFor(modelItem => item.FemailTitle)</td>
+            <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+            <td>@Html.DisplayFor(modelItem => item.PriceTitle)</td>
+            <td>@Html.DisplayFor(modelItem => item.DiscountTitle)</td>
+            <td>@Html.DisplayFor(modelItem => item.FinalTitle)</td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Pay">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OrderPay.Order.date" class="control-label">תאריך הזמנה</label>
+                <input asp-for="OrderPay.Order.date" class="form-control" readonly="readonly" />
+                <span asp-validation-for="OrderPay.Order.date" class="text-danger"></span>
+            </div>
+            <h5>כתובת למשלוח</h5>
+            <div class="form-group">
+                <label asp-for="OrderPay.Order.City" class="control-label"></label>
+                <input asp-for="OrderPay.Order.City" class="form-control" />
+                <span asp-validation-for="OrderPay.Order.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderPay.Order.Street" class="control-label"></label>
+                <input asp-for="OrderPay.Order.Street" class="form-control" />
+                <span asp-validation-for="OrderPay.Order.Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderPay.Order.Number" class="control-label"></label>
+                <input asp-for="OrderPay.Order.Number" class="form-control" />
+                <span asp-validation-for="OrderPay.Order.Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderPay.Order.Customer.Phone_Number" class="control-label">טלפון </label>
+                <input asp-for="OrderPay.Order.Customer.Phone_Number" class="form-control" />
+                <span asp-validation-for="OrderPay.Order.Customer.Phone_Number" class="text-danger"></span>
+            </div>
+            <h5>משלוח חינם בקניה מעל 1000 ש"ח</h5>
+            <div class="form-group">
+                <label asp-for="OrderPay.Order.PriceSending" class="control-label">מחיר משלוח</label>
+                <input asp-for="OrderPay.Order.PriceSending" class="form-control" readonly="readonly" />
+                <span asp-validation-for="OrderPay.Order.PriceSending" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderPay.Order.PriceTotal" class="control-label">סך הכל לתשלום</label>
+                <input asp-for="OrderPay.Order.PriceTotal" class="form-control" readonly="readonly" />
+                <span asp-validation-for="OrderPay.Order.PriceTotal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberCreditCard" class="control-label">מספר כרטיס אשראי</label>
+                <input asp-for="NumberCreditCard" class="form-control" />
+                <span asp-validation-for="NumberCreditCard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ValidDateCreditCard" class="control-label">תוקף כרטיס</label>
+                <input asp-for="ValidDateCreditCard" class="form-control" />
+                <span asp-validation-for="ValidDateCreditCard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CVV" class="control-label">CVV</label>
+                <input asp-for="CVV" class="form-control" />
+                <span asp-validation-for="CVV" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="קבל תשלום" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">חזרה לחנות</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
